@@ -6,7 +6,7 @@ This library uses the `azure-mgmt-loganalytics` package for managing Saved Searc
 # Usage
 
 ```bash
-pip install git+git@github.com:energizedwork/azure-log-analytics-alerts-cli.git
+pip install git+https://github.com/energizedwork/azure-log-analytics-alerts-cli.git
 ```
 
 The following environment variables need to be set:
