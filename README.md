@@ -1,4 +1,4 @@
-#CLI for the Azure Alerting REST API
+# CLI for the Azure Alerting REST API
 
 Provides the ability to create Azure Log Analytics Alerts. There is currently no [Azure Python SDK]("https://github.com/Azure/azure-sdk-for-python/") support for creating Alerts.
 This library uses the `azure-mgmt-loganalytics` package for managing Saved Searches.
