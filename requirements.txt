@@ -1,7 +1,7 @@
 adal==0.4.7
 asn1crypto==0.23.0
 azure-common==1.1.8
--e git+git@github.com:energizedwork/azure-log-analytics-alerts-cli.git#egg=Azure_Log_Analytics_Alerts
+-e git+https://github.com/energizedwork/azure-log-analytics-alerts-cli.git#egg=Azure_Log_Analytics_Alerts
 azure-mgmt-loganalytics==0.1.0
 azure-mgmt-nspkg==2.0.0
 azure-nspkg==2.0.0
