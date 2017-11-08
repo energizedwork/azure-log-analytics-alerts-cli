@@ -253,34 +253,3 @@ class AlertServicesOperations(object):
             body_content = None
 
         return body_content, header_parameters, query_parameters
-
-
-
-
-#def delete_schedule_alert(self, search_name, schedule_name, action_name):
- #   return self._validate_response(requests.delete(self.base_url + "savedSearches/{}/schedules/{}/actions/{}".format(search_name, schedule_name, action_name), params=self.PARAMS, headers=self.HEADERS))
-
-# def create_schedule_alert_threshold(self, search_name, alert_name, threshold_operator, threshold_value, severity="Critical", include_email_alert=True, email_recipients=list(), email_subject=None):
-#     properties = {
-#         "name": alert_name,
-#         "severity": severity, #Critial, Warning, Informational
-#         "Type": "Alert",
-#         "threshold": {
-#             "operator": threshold_operator,
-#             "value": threshold_value
-#         },
-#         "version": 1
-#     }
-#
-#     if include_email_alert:
-#         properties["emailnotification"] = {
-#             "recipients": email_recipients,
-#             "subject": email_subject
-#         }
-#
-#     data = {
-#         "properties": properties
-#     }
-#
-#     return self._validate_response(requests.put(self.base_url + "savedSearches/{0}/schedules/{0}-schedule/actions/{0}-schedule-action-threshold".format(string.lower(search_name)), params=self.PARAMS, headers=self.HEADERS, data=json.dumps(data)))
-#
