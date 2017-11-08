@@ -22,10 +22,10 @@ class TestAlertServicesOperations(unittest.TestCase):
     SAMPLE_QUERY = "Type=Perf ObjectName=\"Processor\" CounterName=\"% Processor Time\" Computer=\"ACUKSLDSTANAP01\" | measure avg(CounterValue) by Computer Interval 5MINUTES"
 
     def setUp(self):
-        tenant_id = os.environ.get("TF_VAR_azure_tenant_id")
-        client_id = os.environ.get("TF_VAR_azure_client_id")
-        client_secret = os.environ.get("TF_VAR_azure_client_secret")
-        subscription_id = os.environ.get("TF_VAR_azure_subscription_id")
+        tenant_id = os.environ.get("AZURE_TENANT_ID")
+        client_id = os.environ.get("AZURE_CLIENT_ID")
+        client_secret = os.environ.get("AZURE_CLIENT_SECRET")
+        subscription_id = os.environ.get("AZURE_SUBSCRIPTION_ID")
 
         if not tenant_id or not client_id or not client_secret or not subscription_id:
             raise ValueError("one or more environment variables are missing")
