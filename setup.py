@@ -1,9 +1,10 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='Azure Log Analytics Alerts',
     version='0.1',
-    py_modules=['azure_log_analytics'],
+    packages=find_packages(),
+    py_modules=['cli'],
     install_requires=[
         'click',
         'azure-mgmt-loganalytics==0.1.0',
