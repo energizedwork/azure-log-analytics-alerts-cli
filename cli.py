@@ -82,7 +82,9 @@ def delete_saved_search(workspace_name, search_name, resource_group):
 @click.option('--threshold-value', help='Comparison value')
 @click.option('--resource-group', help='The resource group of the Workspace')
 @click.option('--query', help='The search query used to alert on')
-def create_metric_alert(workspace_name, name, search_name, threshold_operator, threshold_value, resource_group, query):
+@click.option('--query-interval', help='How frequently the search query is run', default=5)
+@click.option('--query-timespan', help='The timespan of data to evaluate', default=5)
+def create_metric_alert(workspace_name, name, search_name, threshold_operator, threshold_value, resource_group, query, query_interval, query_timespan):
     search_parameters = SavedSearch("Alert Queries", search_name, query, 1)
 
     try:
@@ -94,7 +96,7 @@ def create_metric_alert(workspace_name, name, search_name, threshold_operator, t
         else:
             raise e
 
-    schedule_params = SearchSchedule(5, 5, True)
+    schedule_params = SearchSchedule(query_interval, query_timespan, True)
 
     click.echo("creating schedule")
     LA_ALERT_CLIENT.alert_services.create_schedule(resource_group, workspace_name, search_name, "{}-schedule".format(search_name), schedule_params)
