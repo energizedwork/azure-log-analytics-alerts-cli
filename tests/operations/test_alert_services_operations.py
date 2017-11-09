@@ -22,9 +22,9 @@ class TestAlertServicesOperations(unittest.TestCase):
     SAMPLE_QUERY = "Type=Perf ObjectName=\"Processor\" CounterName=\"% Processor Time\" Computer=\"ACUKSLDSTANAP01\" | measure avg(CounterValue) by Computer Interval 5MINUTES"
 
     def setUp(self):
-        tenant_id = os.environ.get("AZURE_TENANT_ID")
+        tenant_id = os.environ.get("AZURE_TENANT")
         client_id = os.environ.get("AZURE_CLIENT_ID")
-        client_secret = os.environ.get("AZURE_CLIENT_SECRET")
+        client_secret = os.environ.get("AZURE_SECRET")
         subscription_id = os.environ.get("AZURE_SUBSCRIPTION_ID")
 
         if not tenant_id or not client_id or not client_secret or not subscription_id:

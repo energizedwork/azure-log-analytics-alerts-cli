@@ -12,9 +12,9 @@ from azure_log_analytics.models.search_schedule import SearchSchedule
 
 
 CONFIG = {
-    "tenant_id": os.environ.get("AZURE_TENANT_ID"),
+    "tenant_id": os.environ.get("AZURE_TENANT"),
     "client_id": os.environ.get("AZURE_CLIENT_ID"),
-    "client_secret": os.environ.get("AZURE_CLIENT_SECRET"),
+    "client_secret": os.environ.get("AZURE_SECRET"),
     "subscription_id": os.environ.get("AZURE_SUBSCRIPTION_ID"),
 }
 
