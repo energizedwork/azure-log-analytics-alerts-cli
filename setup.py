@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
+from version import __version__
 
 setup(
     name='Azure Log Analytics Alerts',
-    version='0.1.1',
+    version=__version__,
     packages=find_packages(),
     py_modules=['cli'],
     install_requires=[

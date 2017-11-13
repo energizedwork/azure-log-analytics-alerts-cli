@@ -3,6 +3,7 @@ import click
 
 from msrestazure.azure_active_directory import ServicePrincipalCredentials
 from azure.mgmt.loganalytics.log_analytics_management_client import LogAnalyticsManagementClient
+
 from azure_log_analytics.azure_log_analytics_api import LogAnalyticsAlertClient
 
 from azure.mgmt.loganalytics.models import SavedSearch
@@ -37,6 +38,12 @@ LA_MGMT_CLIENT = LogAnalyticsManagementClient(CREDENTIALS, CONFIG["subscription_
 @click.group()
 def cli():
     pass
+
+
+@cli.command("version")
+def version():
+    from version import __version__
+    click.echo(__version__)
 
 
 @cli.command("get-search")
