@@ -19,9 +19,6 @@ CONFIG = {
     "subscription_id": os.environ.get("AZURE_SUBSCRIPTION_ID"),
 }
 
-for k, v in CONFIG.items():
-    if not v:
-        raise ValueError("'{}' config value not set".format(k))
 
 CREDENTIALS = ServicePrincipalCredentials(
     CONFIG["client_id"],
@@ -33,6 +30,12 @@ CREDENTIALS = ServicePrincipalCredentials(
 
 LA_ALERT_CLIENT = LogAnalyticsAlertClient(CREDENTIALS, CONFIG["subscription_id"])
 LA_MGMT_CLIENT = LogAnalyticsManagementClient(CREDENTIALS, CONFIG["subscription_id"])
+
+
+def check_config():
+    for k, v in CONFIG.items():
+        if not v:
+            raise ValueError("'{}' config value not set".format(k))
 
 
 @click.group()
@@ -64,6 +67,8 @@ def get_saved_search(workspace_name, search_name, resource_group):
 @click.option('--resource-group', help='The resource group of the Workspace')
 @click.option('--schedule-name', help='The name of the schedule to delete')
 def delete_search_schedule(workspace_name, search_name, resource_group, schedule_name):
+    check_config()
+
     click.echo("deleting search schedule")
 
     result = LA_ALERT_CLIENT.alert_services.delete_search_schedule(resource_group, workspace_name, search_name, schedule_name)
@@ -76,6 +81,8 @@ def delete_search_schedule(workspace_name, search_name, resource_group, schedule
 @click.option('--search-name', help='The name of the saved search created for the alert')
 @click.option('--resource-group', help='The resource group of the Workspace')
 def delete_saved_search(workspace_name, search_name, resource_group):
+    check_config()
+
     click.echo("deleting saved search")
 
     LA_MGMT_CLIENT.saved_searches.delete(resource_group, workspace_name, search_name)
@@ -92,6 +99,8 @@ def delete_saved_search(workspace_name, search_name, resource_group):
 @click.option('--query-interval', help='How frequently the search query is run', default=5)
 @click.option('--query-timespan', help='The timespan of data to evaluate', default=5)
 def create_metric_alert(workspace_name, name, search_name, threshold_operator, threshold_value, resource_group, query, query_interval, query_timespan):
+    check_config()
+
     search_parameters = SavedSearch("Alert Queries", search_name, query, 1)
 
     try:
