@@ -4,6 +4,7 @@ import unittest
 from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 from azure.mgmt.loganalytics.models import SavedSearch
 from msrestazure.azure_active_directory import ServicePrincipalCredentials
+
 from azure_log_analytics.azure_log_analytics_api import LogAnalyticsAlertClient
 from azure_log_analytics.models import ScheduleThreshold
 from azure_log_analytics.models import ScheduleWebhook
@@ -17,7 +18,7 @@ class TestAlertServicesOperations(unittest.TestCase):
     CATEGORY = "integration-tests"
     SAVED_SEARCH_NAME = "test-search"
     SCHEDULE_NAME = "test-search-schedule"
-    THRESHOLD_ACTION_NAME = "test-search-schedule-threshold"
+    THRESHOLD_ACTION_NAME = "Test Search Schedule Action"
     WEBHOOK_ACTION_NAME = "test-search-schedule-webhook"
     SAMPLE_QUERY = "Type=Perf ObjectName=\"Processor\" CounterName=\"% Processor Time\" Computer=\"ACUKSLDSTANAP01\" | measure avg(CounterValue) by Computer Interval 5MINUTES"
 

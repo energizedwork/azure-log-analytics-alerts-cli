@@ -20,6 +20,7 @@ class LogAnalyticsAlertClient(object):
         self._serialize.serialize_type["dict"] = self._patched_serialize_dict
 
         self._deserialize = Deserializer(client_models)
+        self._deserialize.basic_types[unicode] = "unicode"
         self._deserialize.deserialize_type["dict"] = self._patched_deserialize_dict
         self._deserialize.deserialize_type["list"] = self._patched_deserialize_iter
 
