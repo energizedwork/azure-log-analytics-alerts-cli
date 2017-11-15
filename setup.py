@@ -5,7 +5,6 @@ setup(
     name='Azure Log Analytics Alerts',
     version=__version__,
     packages=find_packages(),
-    python_requires=">2.7.5",
     py_modules=['cli', 'version'],
     install_requires=[
         'click',
