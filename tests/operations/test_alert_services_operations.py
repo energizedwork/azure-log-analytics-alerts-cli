@@ -50,9 +50,9 @@ class TestAlertServicesOperations(unittest.TestCase):
             if e.args[0] == "'NoneType' object has no attribute 'error'":  # Azure lib doesn't deserialize error non-200 responses properly
                 pass
 
-        self.laa_client.alert_services.delete_search_schedule(self.RESOURCE_GROUP, self.WORKSPACE_NAME, self.SAVED_SEARCH_NAME, self.SCHEDULE_NAME)
-        self.laa_client.alert_services.delete_schedule_threshold(self.RESOURCE_GROUP, self.WORKSPACE_NAME, self.SAVED_SEARCH_NAME, self.SCHEDULE_NAME, self.THRESHOLD_ACTION_NAME)
-        self.laa_client.alert_services.delete_schedule_threshold(self.RESOURCE_GROUP, self.WORKSPACE_NAME, self.SAVED_SEARCH_NAME, self.SCHEDULE_NAME, self.WEBHOOK_ACTION_NAME)
+        self.laa_client.alert_services.delete_schedule(self.RESOURCE_GROUP, self.WORKSPACE_NAME, self.SAVED_SEARCH_NAME, self.SCHEDULE_NAME)
+        self.laa_client.alert_services.delete_threshold(self.RESOURCE_GROUP, self.WORKSPACE_NAME, self.SAVED_SEARCH_NAME, self.SCHEDULE_NAME, self.THRESHOLD_ACTION_NAME)
+        self.laa_client.alert_services.delete_threshold(self.RESOURCE_GROUP, self.WORKSPACE_NAME, self.SAVED_SEARCH_NAME, self.SCHEDULE_NAME, self.WEBHOOK_ACTION_NAME)
 
     def test_can_create_saved_search(self):
 

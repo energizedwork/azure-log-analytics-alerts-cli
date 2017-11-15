@@ -1,12 +1,15 @@
 import uuid
 
+import logging
+logging.basicConfig()
+
 from msrest.pipeline import ClientRawResponse
 from msrestazure.azure_exceptions import CloudError
 
 
 class AlertServicesOperations(object):
     def __init__(self, client, config, serializer, deserializer):
-
+        self.logger = logging.getLogger(__name__)
         self._client = client
         self._serialize = serializer
         self._deserialize = deserializer
@@ -14,7 +17,7 @@ class AlertServicesOperations(object):
 
         self.config = config
 
-    def delete_search_schedule(self, resource_group_name, workspace_name, saved_search_name, schedule_name, parameters=None, custom_headers=None, raw=False, **operation_config):
+    def delete_schedule(self, resource_group_name, workspace_name, saved_search_name, schedule_name, parameters=None, custom_headers=None, raw=False, **operation_config):
         """Deletes the specified saved search in a given workspace.
 
         :param resource_group_name: The name of the resource group to get. The
@@ -55,7 +58,7 @@ class AlertServicesOperations(object):
 
         return self._handle_response(response, raw, model_name)
 
-    def delete_schedule_threshold(self, resource_group_name, workspace_name, saved_search_name, schedule_name, action_name, parameters=None, custom_headers=None, raw=False, **operation_config):
+    def delete_threshold(self, resource_group_name, workspace_name, saved_search_name, schedule_name, action_name, parameters=None, custom_headers=None, raw=False, **operation_config):
         # Construct URL
         url = '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchName}/schedules/{scheduleName}/actions/{actionName}'
         path_format_arguments = {
@@ -69,6 +72,27 @@ class AlertServicesOperations(object):
         url = self._client.format_url(url, **path_format_arguments)
 
         model_name = 'ScheduleThreshold'
+        body_content, header_parameters, query_parameters = self._prepare_request(custom_headers, parameters, model_name)
+
+        request = self._client.delete(url, query_parameters)
+        response = self._client.send(request, header_parameters, **operation_config)
+
+        return self._handle_response(response, raw, model_name)
+
+    def delete_webhook(self, resource_group_name, workspace_name, saved_search_name, schedule_name, action_name, parameters=None, custom_headers=None, raw=False, **operation_config):
+        # Construct URL
+        url = '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/savedSearches/{savedSearchName}/schedules/{scheduleName}/actions/{actionName}'
+        path_format_arguments = {
+            'resourceGroupName': self._serialize.url("resource_group_name", resource_group_name, 'str', max_length=90, min_length=1, pattern=r'^[-\w\._\(\)]+$'),
+            'workspaceName': self._serialize.url("workspace_name", workspace_name, 'str'),
+            'savedSearchName': self._serialize.url("saved_search_name", saved_search_name, 'str'),
+            'scheduleName': self._serialize.url("schedule_name", schedule_name, 'str'),
+            'actionName': self._serialize.url("action_name", action_name, 'str'),
+            'subscriptionId': self._serialize.url("self.config.subscription_id", self.config.subscription_id, 'str')
+        }
+        url = self._client.format_url(url, **path_format_arguments)
+
+        model_name = 'ScheduleWebhook'
         body_content, header_parameters, query_parameters = self._prepare_request(custom_headers, parameters, model_name)
 
         request = self._client.delete(url, query_parameters)
@@ -215,11 +239,11 @@ class AlertServicesOperations(object):
 
     def _handle_response(self, response, raw, model_name):
         if response.status_code == 409:
-            #"Error '409 Conflict'. The resource already exists. Resource updates not supported."
+            self.logger.warn("409 Conflict. The resource already exists. Resource updates not supported.")
             return
 
         if response.status_code == 404:
-            #"Error '404 Not Found'. The resource doesn't exists."
+            self.logger.warn("404 Not Found. The resource doesn't exists.")
             return
 
         if response.status_code not in [200, 202]:

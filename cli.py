@@ -68,12 +68,44 @@ def get_saved_search(workspace_name, search_name, resource_group):
 @click.option('--search-name', help='The name of the saved search created for the alert')
 @click.option('--resource-group', help='The resource group of the Workspace')
 @click.option('--schedule-name', help='The name of the schedule to delete')
-def delete_search_schedule(workspace_name, search_name, resource_group, schedule_name):
+def delete_schedule(workspace_name, search_name, resource_group, schedule_name):
     _mgmt_client, _alert_client = create_clients()
 
-    click.echo("deleting search schedule")
+    click.echo("deleting schedule")
 
-    result = _alert_client.alert_services.delete_search_schedule(resource_group, workspace_name, search_name, schedule_name)
+    result = _alert_client.alert_services.delete_schedule(resource_group, workspace_name, search_name, schedule_name)
+
+    print(result)
+
+
+@cli.command("delete-threshold")
+@click.option('--workspace-name', help='OMS Workspace Name')
+@click.option('--search-name', help='The name of the saved search created for the alert')
+@click.option('--resource-group', help='The resource group of the Workspace')
+@click.option('--schedule-name', help='The name of the schedule')
+@click.option('--name', help='The name of the threshold to delete')
+def delete_threshold(workspace_name, search_name, resource_group, schedule_name, name):
+    _mgmt_client, _alert_client = create_clients()
+
+    click.echo("deleting threshold")
+
+    result = _alert_client.alert_services.delete_threshold(resource_group, workspace_name, search_name, schedule_name, name)
+
+    print(result)
+
+
+@cli.command("delete-webhook")
+@click.option('--workspace-name', help='OMS Workspace Name')
+@click.option('--search-name', help='The name of the saved search created for the alert')
+@click.option('--resource-group', help='The resource group of the Workspace')
+@click.option('--schedule-name', help='The name of the schedule')
+@click.option('--name', help='The name of the webhook to delete')
+def delete_webhook(workspace_name, search_name, resource_group, schedule_name, name):
+    _mgmt_client, _alert_client = create_clients()
+
+    click.echo("deleting webhook")
+
+    result = _alert_client.alert_services.delete_webhook(resource_group, workspace_name, search_name, schedule_name, name)
 
     print(result)
 
@@ -118,28 +150,31 @@ def create_metric_alert(workspace_name, name, search_name, threshold_operator, t
             raise e
 
     schedule_params = SearchSchedule(query_interval, query_timespan, True)
+    schedule_name = "{}-schedule".format(search_name)
 
-    click.echo("creating schedule")
-    _alert_client.alert_services.create_schedule(resource_group, workspace_name, search_name, "{}-schedule".format(search_name), schedule_params)
+    click.echo("creating schedule {}".format(schedule_name))
+    _alert_client.alert_services.create_schedule(resource_group, workspace_name, search_name, schedule_name, schedule_params)
 
+    threshold_name = "{}-action-threshold".format(search_name)
     threshold_params = ScheduleThreshold(
-        "{}-action-threshold".format(search_name),
+        threshold_name,
         "critical",
         {"operator": threshold_operator, "value": threshold_value},
         {"recipients": [alert_email_recipient], "subject": name}
     )
 
-    click.echo("creating threshold for {}".format(name))
-    _alert_client.alert_services.create_threshold(resource_group, workspace_name, search_name, threshold_params.name, name, threshold_params)
+    click.echo("creating threshold {}".format(threshold_name))
+    _alert_client.alert_services.create_threshold(resource_group, workspace_name, search_name, schedule_name, threshold_name, threshold_params)
 
+    webhook_name = "{}-action-webhook".format(search_name)
     webhook_params = ScheduleWebhook(
-        "{}-action-threshold".format(search_name),
+        webhook_name,
         alert_webhook_uri,
         alert_webhook_payload
     )
 
-    click.echo("creating webhook for {}".format(name))
-    result = _alert_client.alert_services.create_webhook(resource_group, workspace_name, search_name, "{}-schedule".format(search_name), webhook_params.name, webhook_params)
+    click.echo("creating webhook {}".format(webhook_name))
+    result = _alert_client.alert_services.create_webhook(resource_group, workspace_name, search_name, schedule_name, webhook_name, webhook_params)
 
     print(result)
 
